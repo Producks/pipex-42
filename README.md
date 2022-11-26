@@ -29,16 +29,16 @@ On success (all requested permissions granted), zero is returned. On error (at l
 dup  
 Man: https://linux.die.net/man/3/dup  
 Prototype: int dup(int fildes);  
-Use: Make copy of FD
-
-dup2
-Man: https://linux.die.net/man/2/dup2
-Prototype: int dup2(int oldfd, int newfd);
-Use: Restore FD from dup 1
-
-execve
-Man: https://linux.die.net/man/2/execve
-Prototype: int execve(const char *filename, char *const argv[], char *const envp[]);
+Use: Make copy of FD  
+  
+dup2  
+Man: https://linux.die.net/man/2/dup2  
+Prototype: int dup2(int oldfd, int newfd);  
+Use: Restore FD from dup 1  
+  
+execve  
+Man: https://linux.die.net/man/2/execve  
+Prototype: int execve(const char *filename, char *const argv[], char *const envp[]);  
 Use: execve() executes the program pointed to by filename. filename must be either a binary executable, or a script starting with a line of the form:
 ***Notes int main(int argc, char *argv[], char *envp[])***
 
