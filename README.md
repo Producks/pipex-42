@@ -8,7 +8,7 @@ execve, exit, fork, pipe, printf
 Libft ✔️
 
 # Description of new functions:
-perror
+##perror
 Man: https://linux.die.net/man/3/perror
 Prototype: void perror(const char *s);
 Use:Prints a textual description of the error code currently stored in the system variable errno to stderr.
