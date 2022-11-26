@@ -8,13 +8,13 @@ execve, exit, fork, pipe, printf
 Libft ✔️
 
 # Description of new functions:
-perror  
+**perror**  
 Man: https://linux.die.net/man/3/perror  
 Prototype: void perror(const char *s);  
 Use:Prints a textual description of the error code currently stored in the system variable errno to stderr.  
 ****Notes https://en.cppreference.com/w/cpp/error/errno ****  
   
-strerror  
+**strerror**  
 Man: https://linux.die.net/man/3/strerror  
 Prototype: char *strerror(int errnum);  
 Use: The strerror() function returns a pointer to an error message string that corresponds to the specified error number. The argument value is usually that of the errno variable, but can be any integer value. The string pointed to by the return value of strerror() may change on successive strerror() calls.  
