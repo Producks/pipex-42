@@ -6,7 +6,7 @@
 /*   By: ddemers <ddemers@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 14:11:28 by ddemers           #+#    #+#             */
-/*   Updated: 2022/11/27 14:25:09 by ddemers          ###   ########.fr       */
+/*   Updated: 2022/11/27 15:22:03 by ddemers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int main(void)
 {
-    open("lol.txt", O_RDONLY);
-    strerror(5);
+    char c;
+    
+    c = 'c';
+    ft_printf(c);
     return (0);
 }

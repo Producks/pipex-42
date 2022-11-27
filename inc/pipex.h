@@ -19,4 +19,6 @@
 # include <unistd.h>
 # include <string.h>
 
+void ft_printf(char str);
+
 #endif
