@@ -1,14 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ddemers <ddemers@student.42quebec.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/27 14:11:28 by ddemers           #+#    #+#             */
+/*   Updated: 2022/11/27 14:25:09 by ddemers          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/pipex.h"
 
 int main(void)
 {
-    int fd;
-
-    fd = open("lol", "r");
-    printf("%s", strerror(69));
-    exit(-1);
+    open("lol.txt", O_RDONLY);
+    strerror(5);
+    return (0);
 }
