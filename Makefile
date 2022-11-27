@@ -13,11 +13,12 @@
 NAME = pipex
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
+INC = ./inc/pipex.h
 REMOVE = rm -f
 OBJS = ${SRC:.c=.o}
 SRC = ./src/pipex.c
 $(NAME): ${OBJS}
-		 ${LIBC} $(NAME) ${OBJS}
+	${CC} ${OBJS} -o ${NAME}
 all:$(NAME)
 
 clean :
