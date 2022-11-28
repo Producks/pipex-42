@@ -12,11 +12,16 @@
 
 #include "../inc/pipex.h"
 
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
-    char c;
-    
-    c = 'c';
-    ft_printf(c);
+    int i;
+    char *argVec[] = {"ls -la", NULL};
+
+    i = 0;
+    while (ft_strncmp("PATH", *envp, 4))
+        envp++;
+    argv++;
+    execve("/bin/ls", argv, envp);
+    perror("Error execve");
     return (0);
 }
