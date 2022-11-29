@@ -1,5 +1,4 @@
 # pipex
-
 # Allowed functions:
 open, close, read, write,
 malloc, free, perror,
