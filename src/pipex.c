@@ -12,73 +12,49 @@
 
 #include "../inc/pipex.h"
 
-int	main(int argc, char *argv[], char *envp[])
+static void	ft_main(s_pipex *pip, char *argv[], char *envp[])
 {
-	var test;
-	char *child[] = {"/bin/ls", "-la", NULL};
-	char *parent[] = {"/usr/bin/wc", "-l", NULL};
-
-	if (argc != 5)
-		return (printf("Wrong number of arguments!"), 0);
-	if (pipe(test.fd) == FAIL)
-		return (perror("pipe"), 0);
-	test.pid = fork();
-	if (test.pid == 0)
-	{
-		close(test.fd[0]);
-		dup2(test.fd[1], 1);
-		close(test.fd[1]);
-		if (execve(child[0], child, envp) == FAIL)
-			perror("execve");
-		exit (0);
-	}
-	else if (test.pid > 0)
-	{
-		wait(NULL);
-		close(test.fd[1]);
-		dup2(test.fd[0], 0);
-		close(test.fd[0]);
-		if (execve(parent[0], parent, envp) == FAIL)
-			perror("execve");
-		exit (0);
-	}
-	return (perror("fork"), 0);
-	argv++;
-	envp++;
+	wait(NULL);
+	exit(0);
 }
 
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	pid_t	pid;
-// 	int		fd[2];
-// 	char *child[] = {"/bin/ls", "-la", NULL};
-// 	char *parent[] = {"/usr/bin/wc", "-l", NULL};
-// 	if (argc == 5)
-// 		return (printf("Wrong number of arguments!"), 0);
-// 	if (pipe(fd) == FAIL)
-// 		return (perror("pipe"), 0);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(fd[0]);
-// 		dup2(fd[1], 1);
-// 		close(fd[1]);
-// 		printf("Child process");
-// 		if (execve(child[0], child, envp) == FAIL)
-// 			perror("execve");
-// 		exit (0);
-// 	}
-// 	else if (pid > 0)
-// 	{
-// 		wait(NULL);
-// 		close(fd[1]);
-// 		dup2(fd[0], 0);
-// 		close(fd[0]);
-// 		if (execve(parent[0], parent, envp) == FAIL)
-// 			perror("execve");
-// 		exit (0);
-// 	}
-// 	return (perror("fork"), 0);
-// 	argv++;
-// 	envp++;
-// }
+static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
+{
+	close(pip.fd[0]);
+	dup2(pip.fd[1], 1);
+	dup2(pip.infile_fd, 0);
+	pip.argv_cmd = ft_split(argv[3], ' '); // {"ls", "-la", NULL}
+	
+	exit(0);
+}
+
+static char	*ft_path(char *envp[])
+{
+	while (ft_strncmp("PATH", *envp, 4))
+		envp++;
+	return (envp + 5);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	s_pipex pip;
+
+	if (argc != 5)
+		return (printf("Wrong number of arguments!"), 1);
+	pip.infile_fd = open(argv[1], O_RDONLY);
+	if (pip.infile_fd == FAIL)
+		return (perror("Open_1"), 1);
+	pip.outfile_fd = open(argv[5], O_WRONLY);
+	if (pip.outfile_fd == FAIL)
+		return (perror("Open_2"), close(pip.infile_fd), 1);
+	if (pipe(pip.fd) == FAIL)
+		return (perror("pipe"), close(pip.infile_fd), close(pip.outfile_fd), 1);
+	pip.path = ft_path(envp); //maybe free?
+	pip.path_cmd = ft_split(pip.path, ':'); 
+	pip.pid = fork();
+	if (pip.pid == 0)
+		ft_fork(pip, argc, envp);
+	else if (pip.pid > 0)
+		ft_main(&pip, argc, envp);
+	return (perror("fork"), close(pip.infile_fd), close(pip.outfile_fd), 1);
+}
