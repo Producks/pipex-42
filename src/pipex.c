@@ -27,11 +27,20 @@ static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
 	exit(0);
 }
 
-static char	*ft_path(char *envp[])
+static char	**ft_get_path(s_pipex *pip, char *envp[])
 {
 	while (ft_strncmp("PATH", *envp, 4))
 		envp++;
-	return (*envp + 5);
+	pip->path = (*envp + 5);
+	pip->path_cmd = ft_split(pip->path, ':');
+	if (!pip->path_cmd)
+	{
+		close(pip->infile_fd);
+		close(pip->outfile_fd);
+		perror("Split: ");
+		exit(1);
+	}
+	return (pip->path_cmd);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -43,8 +52,7 @@ int	main(int argc, char *argv[], char *envp[])
 	open_error_check(&pip, argv);
 	if (pipe(pip.fd) == FAIL)
 		return (perror("pipe"), close(pip.infile_fd), close(pip.outfile_fd), 1);
-	pip.path = ft_path(envp);
-	pip.path_cmd = ft_split(pip.path, ':');
+	pip.path_cmd = ft_get_path(&pip, envp);
 	pip.pid = fork();
 	// if (pip.pid == 0)
 	// 	ft_fork(pip, argc, envp);

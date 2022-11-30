@@ -44,9 +44,10 @@ void	*ft_calloc(size_t nitems, size_t size);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2, char sep);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 //ft_split.c
 char	**ft_split(char const *s, char c);
 //errors.c
 void    open_error_check(s_pipex *pip, char *argv[]);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+
 #endif
