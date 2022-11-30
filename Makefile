@@ -16,7 +16,8 @@ CFLAGS = -Wall -Werror -Wextra
 REMOVE = rm -f
 OBJS = ${SRC:.c=.o}
 SRC = 	./src/pipex.c \
-		./src/pipex.utils.c
+		./src/pipex_string.c \
+		./src/ft_split.c
 $(NAME): ${OBJS}
 	${CC} ${OBJS} -o ${NAME}
 all:$(NAME)
