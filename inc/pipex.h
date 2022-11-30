@@ -22,7 +22,6 @@
 /*Write, pipe, fork, dup2, access, execve, close
 read, write*/
 # include <unistd.h>
-# include <stdbool.h>
 
 # define WRITE_END	1
 # define READ_END	0
@@ -31,8 +30,14 @@ read, write*/
 typedef struct var
 {
 	int		fd[2];
+	int		infile_fd;
+	int		outfile_fd;
+	int		inc;
 	pid_t	pid;
-}var;
+	char	*path;
+	char	**path_cmd;
+	char	**argv_cmd;
+}s_pipex;
 
 typedef struct cmd
 {
@@ -43,11 +48,8 @@ typedef struct cmd
 void	*ft_calloc(size_t nitems, size_t size);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2, char sep);
 //ft_split.c
 char	**ft_split(char const *s, char c);
-//ft_strdup.c
-char	*ft_strdup(char *src);
 
 #endif
