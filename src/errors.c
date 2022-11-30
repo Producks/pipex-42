@@ -12,6 +12,14 @@
 
 #include "../inc/pipex.h"
 
+void    close_fds(s_pipex *pip, char *str)
+{
+    close(pip->infile_fd);
+    close(pip->outfile_fd);
+    perror(str);
+    exit(1);
+}
+
 void    open_error_check(s_pipex *pip, char *argv[])
 {
     pip->infile_fd = open(argv[1], O_RDONLY);
