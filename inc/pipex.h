@@ -50,5 +50,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	**ft_split(char const *s, char c);
 //errors.c
 void    open_error_check(s_pipex *pip, char *argv[]);
+void    close_fds(s_pipex *pip, char *str);
 
 #endif
