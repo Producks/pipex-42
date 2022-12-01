@@ -12,37 +12,39 @@
 
 #include "../inc/pipex.h"
 
+void static	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free (str);
+	return ;
+}
+
 static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
 {
 	// close(pip.fd[0]);
 	// dup2(pip.fd[1], 1);
 	// dup2(pip.infile_fd, 0);
-	printf("abc");
 	pip.argv_cmd = ft_split(argv[2], ' '); // {"ls", "-la", NULL}
 	while (*pip.path_cmd)
 	{
 		pip.command = ft_strjoin(*pip.path_cmd, pip.argv_cmd[0], '/');
-		printf("%s\n", pip.command);
-		if (access(pip.command, 0) == 0)
-			break ;
+		if (access(pip.command, 0))
+			execve(pip.command, pip.argv_cmd, envp);
 		free(pip.command);
 		pip.path_cmd++;
 	}
-	execve(pip.command, pip.argv_cmd, envp);
-}
-
-void static	ft_free(s_pipex *pip)
-{
-	int	i;
-
-	i = 0;
-	while (pip->path_cmd[i])
-	{
-		free(pip->path_cmd[i]);
-		i++;
-	}
-	free (pip->path_cmd);
-	return ;
+	ft_free(pip.argv_cmd);
+	close(pip.infile_fd);
+    close(pip.outfile_fd);
+	perror("Child cmd:");
+	exit(1);
 }
 
 static char	**ft_get_path(s_pipex *pip, char *envp[])
@@ -71,6 +73,6 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_fork(pip, argv, envp);
 	//else if (pip.pid > 0)
 		// ft_main(&pip, argv, envp);
-	ft_free(&pip);
+	ft_free(pip.path_cmd);
 	close_fds(&pip, "fork");
 }

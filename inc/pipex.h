@@ -34,6 +34,7 @@ typedef struct var
 	int		outfile_fd;
 	int		inc;
 	pid_t	pid;
+	char	*command;
 	char	*path;
 	char	**path_cmd;
 	char	**argv_cmd;
