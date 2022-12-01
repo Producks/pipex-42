@@ -22,6 +22,7 @@
 /*Write, pipe, fork, dup2, access, execve, close
 read, write*/
 # include <unistd.h>
+# include <sys/wait.h>
 
 # define WRITE_END	1
 # define READ_END	0
@@ -32,8 +33,9 @@ typedef struct var
 	int		fd[2];
 	int		infile_fd;
 	int		outfile_fd;
-	int		inc;
+	int		i;
 	pid_t	pid;
+	pid_t	pid2;
 	char	*command;
 	char	*path;
 	char	**path_cmd;
@@ -51,5 +53,8 @@ char	**ft_split(char const *s, char c);
 //errors.c
 void    open_error_check(s_pipex *pip, char *argv[]);
 void    close_fds(s_pipex *pip, char *str);
+//free.c
+void	ft_free(char **str);
+void    ft_child_free(s_pipex *pip);
 
 #endif

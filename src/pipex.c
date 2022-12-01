@@ -12,50 +12,38 @@
 
 #include "../inc/pipex.h"
 
-void static	ft_free(char **str)
+static void	ft_main(s_pipex pip, char *argv[], char *envp[])
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	pip.i = -1;
+	close(pip.fd[1]);
+	dup2(pip.fd[0], 0);
+	dup2(pip.outfile_fd, 1);
+	pip.argv_cmd = ft_split(argv[3], ' ');
+	while (pip.path_cmd[++pip.i])
 	{
-		free(str[i]);
-		i++;
+		pip.command = ft_strjoin(pip.path_cmd[pip.i], pip.argv_cmd[0], '/');
+		if (!access(pip.command, 0))
+			execve(pip.command, pip.argv_cmd, envp);
+		free(pip.command);
 	}
-	free (str);
-	return ;
+	ft_child_free(&pip);
 }
 
 static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
 {
-	int i;
-	i = 0;
-	// close(pip.fd[0]);
-	// dup2(pip.fd[1], 1);
-	// dup2(pip.infile_fd, 0);
-	pip.argv_cmd = ft_split(argv[2], ' '); // {"ls", "-la", NULL}
-	// while (pip.path_cmd[i])
-	// {
-	// 	pip.command = ft_strjoin(pip.path_cmd[i], pip.argv_cmd[0], '/');
-	// 	if (access(pip.command, 0) == 0)
-	// 	{
-	// 		ft_free(pip.argv_cmd);
-	// 		ft_free(pip.path_cmd);
-	// 		close(pip.infile_fd);
-	// 		close(pip.outfile_fd);
-	// 		free(pip.command);
-	// 		exit (1); // place holder to fix free stuff later! it works no leak
-	// 		execve(pip.command, pip.argv_cmd, envp);
-	// 	}
-	// 	free(pip.command);
-	// 	i++;
-	// }
-	ft_free(pip.argv_cmd);
-	ft_free(pip.path_cmd);
-	close(pip.infile_fd);
-    close(pip.outfile_fd);
-	perror("Child cmd:");
-	exit(1);
+	pip.i = -1;
+	close(pip.fd[0]);
+	dup2(pip.fd[1], 1);
+	dup2(pip.infile_fd, 0);
+	pip.argv_cmd = ft_split(argv[2], ' ');
+	while (pip.path_cmd[++pip.i])
+	{
+		pip.command = ft_strjoin(pip.path_cmd[pip.i], pip.argv_cmd[0], '/');
+		if (!access(pip.command, 0))
+			execve(pip.command, pip.argv_cmd, envp);
+		free(pip.command);
+	}
+	ft_child_free(&pip);
 }
 
 static char	**ft_get_path(s_pipex *pip, char *envp[])
@@ -79,11 +67,11 @@ int	main(int argc, char *argv[], char *envp[])
 	if (pipe(pip.fd) == FAIL)
 		close_fds(&pip, "pipe");
 	pip.path_cmd = ft_get_path(&pip, envp);
-	// pip.pid = fork();
-	// if (pip.pid != 0)
-	ft_fork(pip, argv, envp);
-	//else if (pip.pid > 0)
-		// ft_main(&pip, argv, envp);
+	pip.pid = fork();
+	if (pip.pid == 0)
+		ft_fork(pip, argv, envp);
+	else if (pip.pid > 0)
+		ft_main(pip, argv, envp);
 	ft_free(pip.path_cmd);
 	close_fds(&pip, "fork");
 }

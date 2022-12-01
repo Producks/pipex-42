@@ -17,7 +17,9 @@ REMOVE = rm -f
 OBJS = ${SRC:.c=.o}
 SRC = 	./src/pipex.c \
 		./src/pipex_string.c \
-		./src/ft_split.c
+		./src/ft_split.c \
+		./src/errors.c \
+		./src/free.c
 $(NAME): ${OBJS}
 	${CC} ${OBJS} -o ${NAME}
 all:$(NAME)
