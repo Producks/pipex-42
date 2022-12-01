@@ -32,7 +32,7 @@ typedef struct var
 	int		fd[2];
 	int		infile_fd;
 	int		outfile_fd;
-	int		i;
+	int		inc;
 	pid_t	pid;
 	char	*command;
 	char	*path;
@@ -51,8 +51,5 @@ char	**ft_split(char const *s, char c);
 //errors.c
 void    open_error_check(s_pipex *pip, char *argv[]);
 void    close_fds(s_pipex *pip, char *str);
-//free.c
-static	ft_free(char **str);
-void    ft_child_free(s_pipex *pip);
 
 #endif

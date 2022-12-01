@@ -12,6 +12,20 @@
 
 #include "../inc/pipex.h"
 
+void static	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free (str);
+	return ;
+}
+
 static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
 {
 	int i;
@@ -36,7 +50,12 @@ static void	ft_fork(s_pipex pip, char *argv[], char *envp[])
 	// 	free(pip.command);
 	// 	i++;
 	// }
-	ft_child_free(&pip);
+	ft_free(pip.argv_cmd);
+	ft_free(pip.path_cmd);
+	close(pip.infile_fd);
+    close(pip.outfile_fd);
+	perror("Child cmd:");
+	exit(1);
 }
 
 static char	**ft_get_path(s_pipex *pip, char *envp[])
