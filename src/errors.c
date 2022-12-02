@@ -25,14 +25,20 @@ void    open_error_check(s_pipex *pip, char *argv[])
     pip->infile_fd = open(argv[1], O_RDONLY);
     if (pip->infile_fd == FAIL)
     {
-        perror("Open first file argv problem:");
-        exit(1);
+        pip->outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_WRONLY, 0644);
+        if (pip->outfile_fd != FAIL)
+        {
+            write(pip->outfile_fd, "0\n", 2);
+            close(pip->outfile_fd);
+        }
+        perror("pipex: line 1: input");
+        exit(0);
     }
-    pip->outfile_fd = open(argv[4], O_WRONLY);
+    pip->outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_WRONLY, 0644);
     if (pip->outfile_fd == FAIL)
     {
-        perror("Open fourth file argv problem:");
+        perror("input:");
         close(pip->infile_fd);
-        exit(1);
+        exit(0);
     }
 }
