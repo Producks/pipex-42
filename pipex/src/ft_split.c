@@ -71,19 +71,21 @@ static    char    **get_size(char const *s, char c, s_split *a)
     while (*s)
     {
         while (*s == c)
-            ++s;
+            s++;
         if (*s)
-            ++a->word_count;
+            a->word_count++;
         if (*s == 39 || *s == '\"')
         {
-            s++;
-            while (*s != 39 && *s != '\0' && *s != '\"')
+            a->c = *s++;
+            while (*s != a->c && *s != '\0')
                 s++;
-            if (*s == 39 || *s == '\0' || *s == '\"')
+            if (*s == '\0')
+                return (NULL);
+            if (*s == a->c || *s == '\0')
                 s++;
         }
         while (*s && *s != c)
-            ++s;
+            s++;
     }
     a->str = (char **)malloc(sizeof(char *) * a->word_count);
     if (!a->str)
