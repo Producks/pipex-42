@@ -10,24 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "test.h"
 
-static char    *ft_special(const char *str, unsigned int start, s_split *a)
+static void ft_special(const char *str, unsigned int start, s_split *a)
 {
     int    i;
-    int    y;
+    char    c;
     char    *temp;
 
-    i = start + 1;
-    while (str[i] != 39 && str[i] != '\0' && str[i] != '\"')
-        i++;
-    y = (i - (start - 1));
+    c = str[start];
+    if (str[start] == c)
+    {
+        i = start + 1;
+        while(str[i] != c && str[i] != '\0')
+            i++;
+        if (str[i] == '\0')
+            return ;
+        i -= start - 1;
+    }
     a->check_sep = 69;
-    temp = ft_substr(str, start, y);
-    a->i += ft_strlen(temp);
+    temp = ft_substr(str, start, i);
+    a->i += ft_strlen(temp) -1;
     a->ptr[a->nmbcount] = ft_strtrim(temp, "'\"");
     free(temp);
-    return (a->ptr[a->nmbcount]);
+    if (a->ptr[a->nmbcount] == NULL)
+        return;
+    a->nmbcount += 1;
 }
 
 static char    **ft_free_mem(char **ptr)
@@ -99,7 +107,7 @@ char    **ft_split(char const *s, char c)
         if (s[a.i] == c)
             a.check_sep = 0;
         if (s[a.i] == 39 || s[a.i] == '\"')
-            a.ptr[a.nmbcount++] = ft_special(s, a.i, &a);
+            ft_special(s, a.i, &a);
         if (s[a.i] != c && a.check_sep++ == 0)
         {
             a.ptr[a.nmbcount] = ft_substr(s, a.i, ft_length(s, c, a.i));
