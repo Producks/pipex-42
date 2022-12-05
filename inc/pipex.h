@@ -15,13 +15,14 @@
 
 //Printf, perror
 # include <stdio.h>
-//exit
+//exit, free, malloc
 # include <stdlib.h>
-//open, malloc
+//open
 # include <fcntl.h>
 /*Write, pipe, fork, dup2, access, execve, close
 read, write*/
 # include <unistd.h>
+//waitpid
 # include <sys/wait.h>
 
 # define WRITE_END	1
@@ -44,13 +45,13 @@ typedef struct var
 
 typedef struct split
 {
-	char	**ptr;
-	int		i;
-	char	c;
 	int		check_sep;
 	int		nmbcount;
 	int		word_count;
+	int		i;
+	char	c;
 	char	**str;
+	char	**ptr;
 }t_split;
 
 //pipex_strings.c
@@ -64,9 +65,10 @@ char	**ft_split(char const *s, char c);
 //errors.c
 void	open_error_check(t_pipex *pip, char *argv[]);
 void	close_fds(t_pipex *pip, char *str);
+//ft_strtrim.c
+char	*ft_strtrim(char const *s1, char const *set);
 //free.c
 void	ft_free(char **str);
 void	ft_child_free(t_pipex *pip);
-char	*ft_strtrim(char const *s1, char const *set);
 
 #endif
