@@ -40,7 +40,18 @@ typedef struct var
 	char	*path;
 	char	**path_cmd;
 	char	**argv_cmd;
-}s_pipex;
+}t_pipex;
+
+typedef struct split
+{
+	char	**ptr;
+	int		i;
+	char	c;
+	int		check_sep;
+	int		nmbcount;
+	int		word_count;
+	char	**str;
+}t_split;
 
 //pipex_strings.c
 void	*ft_calloc(size_t nitems, size_t size);
@@ -51,10 +62,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 //ft_split.c
 char	**ft_split(char const *s, char c);
 //errors.c
-void    open_error_check(s_pipex *pip, char *argv[]);
-void    close_fds(s_pipex *pip, char *str);
+void	open_error_check(t_pipex *pip, char *argv[]);
+void	close_fds(t_pipex *pip, char *str);
 //free.c
 void	ft_free(char **str);
-void    ft_child_free(s_pipex *pip);
+void	ft_child_free(t_pipex *pip);
+char	*ft_strtrim(char const *s1, char const *set);
 
 #endif
