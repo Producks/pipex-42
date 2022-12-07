@@ -6,7 +6,7 @@
 /*   By: ddemers <ddemers@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 14:11:28 by ddemers           #+#    #+#             */
-/*   Updated: 2022/12/04 23:52:00 by ddemers          ###   ########.fr       */
+/*   Updated: 2022/12/05 22:32:13 by ddemers          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_main(t_pipex pip, char *argv[], char *envp[])
 	dup2(pip.outfile_fd, 1);
 	pip.argv_cmd = ft_split(argv[3], ' ');
 	if (!pip.argv_cmd)
-		return ;
+		split_error(&pip);
 	while (pip.path_cmd[++pip.i])
 	{
 		pip.command = ft_strjoin(pip.path_cmd[pip.i], pip.argv_cmd[0], '/');
@@ -30,10 +30,12 @@ static void	ft_main(t_pipex pip, char *argv[], char *envp[])
 		{
 			ft_free(pip.path_cmd);
 			execve(pip.command, pip.argv_cmd, envp);
+			error_execve(&pip);
 		}
 		free(pip.command);
 	}
-	ft_child_free(&pip);
+	close(1);
+	command_error(&pip);
 }
 
 static void	ft_fork(t_pipex pip, char *argv[], char *envp[])
@@ -44,7 +46,7 @@ static void	ft_fork(t_pipex pip, char *argv[], char *envp[])
 	dup2(pip.infile_fd, 0);
 	pip.argv_cmd = ft_split(argv[2], ' ');
 	if (!pip.argv_cmd)
-		return ;
+		split_error(&pip);
 	while (pip.path_cmd[++pip.i])
 	{
 		pip.command = ft_strjoin(pip.path_cmd[pip.i], pip.argv_cmd[0], '/');
@@ -54,10 +56,12 @@ static void	ft_fork(t_pipex pip, char *argv[], char *envp[])
 		{
 			ft_free(pip.path_cmd);
 			execve(pip.command, pip.argv_cmd, envp);
+			error_execve(&pip);
 		}
 		free(pip.command);
 	}
-	ft_child_free(&pip);
+	close(1);
+	command_error(&pip);
 }
 
 static void	ft_get_path(t_pipex *pip, char *envp[])

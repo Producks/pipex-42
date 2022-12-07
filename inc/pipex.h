@@ -25,8 +25,6 @@ read, write*/
 //waitpid
 # include <sys/wait.h>
 
-# define WRITE_END	1
-# define READ_END	0
 # define FAIL		-1
 
 typedef struct var
@@ -36,7 +34,6 @@ typedef struct var
 	int		outfile_fd;
 	int		i;
 	pid_t	pid;
-	pid_t	pid2;
 	char	*command;
 	char	*path;
 	char	**path_cmd;
@@ -62,13 +59,15 @@ char	*ft_strjoin(char const *s1, char const *s2, char sep);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 //ft_split.c
 char	**ft_split(char const *s, char c);
+//ft_strtrim.c
+char	*ft_strtrim(char const *s1, char const *set);
 //errors.c
 void	open_error_check(t_pipex *pip, char *argv[]);
 void	close_fds(t_pipex *pip, char *str);
-//ft_strtrim.c
-char	*ft_strtrim(char const *s1, char const *set);
+void	error_execve(t_pipex *pip);
+void	command_error(t_pipex *pip);
+void	split_error(t_pipex *pip);
 //free.c
 void	ft_free(char **str);
-void	ft_child_free(t_pipex *pip);
 
 #endif

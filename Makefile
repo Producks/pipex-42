@@ -19,6 +19,7 @@ SRC = 	./src/pipex.c \
 		./src/pipex_string.c \
 		./src/ft_split.c \
 		./src/errors.c \
+		./src/ft_strtrim.c \
 		./src/free.c
 $(NAME): ${OBJS}
 	${CC} ${OBJS} -o ${NAME}
