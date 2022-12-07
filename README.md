@@ -3,7 +3,7 @@
 * Handle if input or output aren't found like shell ✔️
 * Handle \' and \" ✔️
 * Doesn't handle \' and \" together ❌  
-* Handle returning an error message when error happen ✔️
+* Handle returning an error message when an error happen ✔️
 * Doesn't handle the exact same error message has shell ❌  
 * Bonus ❌  
 # Pipex Flowchart:
