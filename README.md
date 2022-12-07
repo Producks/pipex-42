@@ -1,10 +1,18 @@
-# pipex  
-Hello
+# Pipex
+* Should handle most unix commands ✔️
+* Handle if input or output aren't found like shell ✔️
+* Handle \' and \" ✔️
+* Doesn't handle \' and \" together ❌  
+* Handle returning an error message when error happen ✔️
+* Doesn't handle the exact same error message has shell ❌  
+* Bonus ❌  
+# Pipex Flowchart:
+![](https://i.imgur.com/jCuazk7.png)
 # Allowed functions:
 open, close, read, write,  
 malloc, free, perror,  
 strerror, access, dup, dup2,  
-execve, exit, fork, pipe, printf  
+execve, exit, fork, pipe, printf    
 Libft ✔️
 
 # Notes for new functions:
